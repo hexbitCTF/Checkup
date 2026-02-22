@@ -1,37 +1,185 @@
 // CONFIGURATION - YOUR URL IS CORRECT
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwhzofDyEZWPHsHSPhzlkYNBVOl7ukLa9a9124UM_cEqoQpUu4fWBk_gNxDQRSvL44H/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNQklfLldaaAu4ZJ7_1J-7tRmarupABhCdTwh_isGDfls6cu4DTc3k-qOk_fHiMzeb/exec';
 const emts = ['John Doe', 'Jane Smith', 'Bob Johnson', 'Alice Brown'];
 const cars = ['Ambulance 101', 'Ambulance 102', 'Ambulance 103', 'Ambulance 104'];
 
 const pages = {
     Medical: [
-        { name: 'Bandages', type: 'checkbox', required: 'Present' },
-        { name: 'Gauze packs', type: 'checkbox', required: 'Full kit' },
-        { name: 'BP cuff', type: 'checkbox', required: 'Functional' },
-        { name: 'Stethoscope', type: 'checkbox', required: 'Working' },
+        // SECTION: BVM and Suction
+        { type: 'section', name: 'BVM and Suction' },
+        { name: 'BVM Adult', type: 'checkbox', required: '1' },
+        { name: 'BVM Adult Oxygen Reservoir', type: 'checkbox', required: '1' },
+        { name: 'BVM Pediatric', type: 'checkbox', required: '1' },
+        { name: 'BVM Mask Adult', type: 'checkbox', required: '3 (Large Adult - Small Adult - Large Child)' },
+        { name: 'BVM Mask Pediatric', type: 'checkbox', required: '2 (Small Child - Infant)' },
+        { name: 'HEPA Filter', type: 'checkbox', required: '2' },
+        { name: 'Manual Suction Unit', type: 'checkbox', required: '1' },
+        { name: 'Suction Pipes (with adapter)', type: 'checkbox', required: '2 (Thin - Thick)' },
+        { name: 'Suction Tubes', type: 'checkbox', required: '4 (Black - Blue - Green - Orange)' },
+        { name: 'Suction Connector', type: 'checkbox', required: '1' },
+        { name: 'Airway Cannula (OPA)', type: 'checkbox', required: '8 (40mm - 110mm)' },
+
+        // SECTION: Oxygen
+        { type: 'section', name: 'Oxygen' },
+        { name: 'Oxygen D-Size Bottle (Small)', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen Regulator for Bottle', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Keychain', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Face Mask Adult', type: 'checkbox', required: '3' },
+        { name: 'Oxygen Face Mask Pediatric', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Non-rebreather Mask Adult', type: 'checkbox', required: '3' },
+        { name: 'Oxygen Non-rebreather Mask Pediatric', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Nasal Cannula Adult', type: 'checkbox', required: '3' },
+        { name: 'Oxygen Nasal Cannula Pediatric', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Connecting Tube', type: 'checkbox', required: '3' },
+
+        // SECTION: Vital Signs
+        { type: 'section', name: 'Vital Signs' },
+        { name: 'Shygmomanometer', type: 'checkbox', required: '1' },
+        { name: 'Shygmomanometer Cuffs', type: 'checkbox', required: '4 (Large Adult - Adult - Child - Infant)' },
+        { name: 'Stethoscope', type: 'checkbox', required: '1' },
+        { name: 'Pulse Oximeter', type: 'checkbox', required: '1' },
+        { name: 'Penlight', type: 'checkbox', required: '1' },
+        { name: 'Oral Thermometer', type: 'checkbox', required: '3' },
+        { name: 'Thermometer Strips', type: 'checkbox', required: '10' },
+        { name: 'Glucometer', type: 'checkbox', required: '1' },
+        { name: 'Glucometer Strips', type: 'checkbox', required: '10' },
+        { name: 'Glucometer Needles', type: 'checkbox', required: '10' },
+
+        // SECTION: Other
+        { type: 'section', name: 'Other' },
+        { name: 'Cloth Scissors', type: 'checkbox', required: '1' },
+        { name: 'Trash Bags Small', type: 'checkbox', required: '10' }
     ],
+
     Trauma: [
-        { name: 'Tourniquets', type: 'checkbox', required: '2+ functional' },
-        { name: 'Trauma dressings', type: 'checkbox', required: '10+' },
-        { name: 'Chest seals', type: 'checkbox', required: '4+' },
-        { name: 'Hemostatic gauze', type: 'checkbox', required: 'Present' },
+        // SECTION: Spinal
+        { type: 'section', name: 'Spinal' },
+        { name: 'Head Immobilizer', type: 'checkbox', required: '1' },
+        { name: 'Head Immobilizer Fixations', type: 'checkbox', required: '2' },
+        { name: 'Head Immobilizer Straps', type: 'checkbox', required: '2' },
+        { name: 'Spider Belts', type: 'checkbox', required: '1' },
+        { name: 'Hook Straps', type: 'checkbox', required: '4' },
+
+        // SECTION: Splinting
+        { type: 'section', name: 'Splinting' },
+        { name: 'Pelvic Belt', type: 'checkbox', required: '1' },
+        { name: 'KTD', type: 'checkbox', required: '1' },
+        { name: 'Ducting Tape', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+
+        // SECTION: Bandages
+        { type: 'section', name: 'Bandages' },
+        { name: 'Elastic Bandage Small', type: 'checkbox', required: '5' },
+        { name: 'Elastic Bandage Medium', type: 'checkbox', required: '5' },
+        { name: 'Elastic Bandage Large', type: 'checkbox', required: '5' },
+        { name: 'Compressive Bandage', type: 'checkbox', required: '5' },
+        { name: 'Triangular Bandage', type: 'checkbox', required: '5' },
+        { name: 'Band Aids', type: 'checkbox', required: '10' },
+
+        // SECTION: Other
+        { type: 'section', name: 'Other' },
+        { name: 'Sterile Gauze (Set of 5)', type: 'checkbox', required: '5' },
+        { name: 'Ice Bag', type: 'checkbox', required: '2' },
+        { name: 'Inongan/DHR', type: 'checkbox', required: '1' },
+        { name: 'Tourniquet', type: 'checkbox', required: '1' },
+        { name: 'Chest Seal', type: 'checkbox', required: '1' }
     ],
-    Vehicle: [
-        { name: 'O2 bottles', type: 'text', required: '500 PSI', placeholder: 'Enter PSI', min: 0, max: 2000 },
-        { name: 'Glove boxes', type: 'slider', required: '100%', min: 0, max: 100, step: 5 },
-        { name: 'Duct tape', type: 'slider', required: '100%', min: 0, max: 100, step: 5 },
-        { name: 'Fire extinguisher', type: 'checkbox', required: 'Charged' },
-        { name: 'Suction unit', type: 'checkbox', required: 'Operational' },
-        { name: 'AED', type: 'checkbox', required: 'Functional' },
+
+    'Ambulance Equipment': [
+        // SECTION: Transport
+        { type: 'section', name: 'Transport' },
+        { name: 'Foldable Stretcher', type: 'checkbox', required: '1' },
+        { name: 'Stair Chair', type: 'checkbox', required: '1' },
+        { name: 'EZ-Glide', type: 'checkbox', required: '1' },
+        { name: 'Planchette', type: 'checkbox', required: '1' },
+        { name: 'Scoop Stretcher', type: 'checkbox', required: '1' },
+        { name: 'Spare Belts', type: 'checkbox', required: '3' },
+
+        // SECTION: Immobilization and Splinting
+        { type: 'section', name: 'Immobilization and Splinting' },
+        { name: 'Vacuum Mattress', type: 'checkbox', required: '1' },
+        { name: 'Vacuum Mattress Deflator', type: 'checkbox', required: '1' },
+        { name: 'Spinal Board', type: 'checkbox', required: '1' },
+        { name: 'Rigid Splints', type: 'checkbox', required: '3' },
+        { name: 'Vacuum Splints', type: 'checkbox', required: '3' },
+        { name: 'KED', type: 'checkbox', required: '1' },
+        { name: 'KED Straps', type: 'checkbox', required: '2' },
+        { name: 'KED Pillow', type: 'checkbox', required: '1' },
+        { name: 'Cervical Collar Adult', type: 'checkbox', required: '3' },
+        { name: 'Cervical Collar Pediatric', type: 'checkbox', required: '2' },
+
+        // SECTION: Oxygen
+        { type: 'section', name: 'Oxygen' },
+        { name: 'Oxygen E-Size Bottle', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen Regulator for Bottle', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Jumbo Bottle', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen Flowmeter for Jumbo Bottle', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Keychain', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Spare Bottle Large', type: 'checkbox', required: '1' },
+        { name: 'Oxygen Spare Bottle Small', type: 'checkbox', required: '1' },
+
+        // SECTION: Suction
+        { type: 'section', name: 'Suction' },
+        { name: 'Electrical Suction', type: 'checkbox', required: '1' },
+        { name: 'Suction Tubes', type: 'checkbox', required: '4 (Black - Blue - Green - Orange)' },
+        { name: 'Suction Connector', type: 'checkbox', required: '1' },
+
+        // SECTION: CPR
+        { type: 'section', name: 'CPR' },
+        { name: 'AED', type: 'checkbox', required: '1' },
+        { name: 'AED Battery Level', type: 'slider', required: '100%', min: 0, max: 100, step: 5 },
+        { name: 'AED Patches', type: 'checkbox', required: '2' },
+        { name: 'CPR Board', type: 'checkbox', required: '1' },
+
+        // SECTION: PPE
+        { type: 'section', name: 'PPE' },
+        { name: 'Nitrile Gloves Small (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Medium (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Large (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Large (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Surgical Face Mask (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Intermediate PPE Kit (for 4 EMTs)', type: 'checkbox', required: '3' },
+        { name: 'Intermediate Plus Coverall Medium', type: 'checkbox', required: '1' },
+        { name: 'Intermediate Plus Coverall Large', type: 'checkbox', required: '1' },
+        { name: 'Intermediate Plus Coverall X-Large', type: 'checkbox', required: '1' },
+        { name: 'Protective Glasses or Goggles', type: 'checkbox', required: '4' },
+        { name: 'N95 Face Mask', type: 'checkbox', required: '4' },
+
+        // SECTION: Disinfection
+        { type: 'section', name: 'Disinfection' },
+        { name: 'Trash Bags Large', type: 'checkbox', required: '5' },
+        { name: 'Trash Bags Small', type: 'checkbox', required: '10' },
+        { name: 'Cleanisept Spray', type: 'checkbox', required: '1' },
+        { name: 'Descosept Spray', type: 'checkbox', required: '1' },
+        { name: 'Paper Towels', type: 'checkbox', required: '1' },
+        { name: 'Hand Sanitizer (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
+
+        // SECTION: Skin and Hygiene
+        { type: 'section', name: 'Skin and Hygiene' },
+        { name: 'Disposable Blanket', type: 'checkbox', required: '3' },
+        { name: 'Regular Blanket', type: 'checkbox', required: '2' },
+        { name: 'Male Urinal', type: 'checkbox', required: '1' },
+        { name: 'Female Urinal', type: 'checkbox', required: '1' },
+        { name: 'Bed Pan', type: 'checkbox', required: '1' },
+        { name: 'Serum', type: 'checkbox', required: '1' },
+        { name: 'Blue Pad', type: 'checkbox', required: '3' },
+
+        // SECTION: Other
+        { type: 'section', name: 'Other' },
+        { name: 'Body Bag', type: 'checkbox', required: '2' },
+        { name: 'Obstetric Kit', type: 'checkbox', required: '1' },
+        { name: 'Head Lamp', type: 'checkbox', required: '4' },
+        { name: 'Disclaimer Report (Front)', type: 'checkbox', required: '5' }
     ]
 };
 
 // GLOBAL STATE
 let state = JSON.parse(localStorage.getItem('checkupState')) || {
-    emt: '', car: '', items: {}, currentPage: 'Medical', submitted: false
+    emt: '', car: '', items: {}, currentPage: 'Medical', submitted: false,
+    startTime: null, endTime: null, firstCheckTime: null
 };
 let currentPageIndex = 0;
-const pageOrder = ['Medical', 'Trauma', 'Vehicle'];
+const pageOrder = ['Medical', 'Trauma', 'Ambulance Equipment'];
+let firstCheckRecorded = false;
 
 // INIT
 document.addEventListener('DOMContentLoaded', function () {
@@ -47,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.submitFinal = submitFinal;
     window.backToCheckup = backToCheckup;
     window.resetAll = resetAll;
-    window.newCheckup = newCheckup; // ✅ NEW: Start fresh checkup
+    window.newCheckup = newCheckup;
 });
 
 function initDropdowns() {
@@ -67,15 +215,52 @@ function initDropdowns() {
     });
 }
 
+function recordFirstCheck() {
+    if (!firstCheckRecorded && !state.firstCheckTime) {
+        state.firstCheckTime = new Date().toISOString();
+        state.startTime = state.firstCheckTime;
+        firstCheckRecorded = true;
+        saveState();
+        console.log('⏰ First check recorded at:', state.firstCheckTime);
+    }
+}
+
 function renderPage(pageName) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    const pageEl = document.getElementById(pageName.toLowerCase());
+
+    const pageId = pageName.toLowerCase().replace(/\s+/g, '-');
+    const pageEl = document.getElementById(pageId);
+
     if (pageEl) {
         pageEl.classList.add('active');
         const container = pageEl.querySelector('.items');
         container.innerHTML = '';
 
         pages[pageName].forEach(item => {
+            // ✅ SECTION HEADERS WITH PERFECT 25px BOTTOM MARGIN
+            if (item.type === 'section') {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'section-header';
+
+                Object.assign(sectionDiv.style, {
+                    margin: '30px 0 25px 0',  // 🎯 25px spacing to items!
+
+                });
+
+                const h3 = document.createElement('h3');
+                h3.textContent = item.name;
+                Object.assign(h3.style, {
+                    margin: '0',
+                    fontSize: '1.2em',
+
+                });
+
+                sectionDiv.appendChild(h3);
+                container.appendChild(sectionDiv);
+                return;
+            }
+
+            // ALL EXISTING ITEM CODE (unchanged)
             const div = document.createElement('div');
             div.className = 'item';
             div.dataset.key = `${pageName}-${item.name}`;
@@ -109,8 +294,11 @@ function renderPage(pageName) {
 
         state.currentPage = pageName;
         saveState();
+    } else {
+        console.error('❌ Page not found:', pageId, 'Expected ID for:', pageName);
     }
 }
+
 
 function setupItemEvents(div, item) {
     const key = div.dataset.key;
@@ -119,6 +307,9 @@ function setupItemEvents(div, item) {
     const sliderValueEl = div.querySelector('.slider-value');
 
     checkbox.addEventListener('change', () => {
+        if (state.currentPage === 'Medical' && !firstCheckRecorded) {
+            recordFirstCheck();
+        }
         toggleInputs(div, item);
         saveItem(key, div);
     });
@@ -185,7 +376,6 @@ function prevPage() {
     renderPage(pageOrder[currentPageIndex]);
 }
 
-// ✅ CORS-PROOF SUBMIT
 function submitInitial() {
     state.emt = document.getElementById('emt').value;
     state.car = document.getElementById('car').value;
@@ -195,21 +385,24 @@ function submitInitial() {
         return;
     }
 
-    ['Medical', 'Trauma', 'Vehicle'].forEach(pageName => {
+    pageOrder.forEach(pageName => {
         pages[pageName].forEach(item => {
-            const key = `${pageName}-${item.name}`;
-            if (!state.items[key]) state.items[key] = { checked: false, value: '' };
+            if (item.type !== 'section') {
+                const key = `${pageName}-${item.name}`;
+                if (!state.items[key]) state.items[key] = { checked: false, value: '' };
+            }
         });
     });
     saveState();
 
-    // ✅ 14 ROWS: One entry per item
     const allData = Object.entries(state.items).map(([key, data]) => ({
         timestamp: new Date().toISOString(),
+        start_time: state.startTime || '',
+        first_check_time: state.firstCheckTime || '',
         emt: state.emt,
         car: state.car,
         phase: 'INITIAL CHECKUP',
-        item: key.split('-').slice(1).join(' '),  // Just item name
+        item: key.split('-').slice(1).join(' '),
         checked: data.checked ? '✅ PRESENT' : '❌ MISSING'
     }));
 
@@ -218,9 +411,10 @@ function submitInitial() {
 
     xhr.open('POST', SCRIPT_URL, true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-            console.log('✅ Initial checkup submitted! Status:', xhr.status);
+            console.log('✅ Initial Status:', xhr.status, xhr.responseText);
             state.submitted = true;
             saveState();
             showRestock();
@@ -231,6 +425,11 @@ function submitInitial() {
 }
 
 function showRestock() {
+    if (!state.endTime) {
+        state.endTime = new Date().toISOString();
+        saveState();
+    }
+
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.getElementById('restock').classList.add('active');
 
@@ -241,19 +440,21 @@ function showRestock() {
     let totalItemsMissing = 0;
     const allMissingItems = [];
 
-    ['Medical', 'Trauma', 'Vehicle'].forEach(pageName => {
+    pageOrder.forEach(pageName => {
         pages[pageName].forEach(item => {
-            const key = `${pageName}-${item.name}`;
-            if (!state.items[key]) {
-                state.items[key] = { checked: false, value: '' };
-            }
+            if (item.type !== 'section') {
+                const key = `${pageName}-${item.name}`;
+                if (!state.items[key]) {
+                    state.items[key] = { checked: false, value: '' };
+                }
 
-            const itemData = state.items[key];
-            if (itemData.checked) {
-                totalItemsChecked++;
-            } else {
-                totalItemsMissing++;
-                allMissingItems.push({ key, item, pageName });
+                const itemData = state.items[key];
+                if (itemData.checked) {
+                    totalItemsChecked++;
+                } else {
+                    totalItemsMissing++;
+                    allMissingItems.push({ key, item, pageName });
+                }
             }
         });
     });
@@ -306,54 +507,31 @@ function showRestock() {
 
     const summaryDiv = document.createElement('div');
     summaryDiv.style.cssText = 'text-align:center;margin-top:30px;padding:20px;background:#fff3cd;border-radius:10px;font-size:1.2em;color:#e74c3c;border:2px solid #ffc107;';
+
+    const totalTime = state.endTime && state.startTime ?
+        ((new Date(state.endTime) - new Date(state.startTime)) / 1000 / 60).toFixed(1) : 'N/A';
+
     summaryDiv.innerHTML = `
         📋 <strong>${totalItemsMissing} items missing</strong> from ambulance - 
         <span style="color:#28a745;">${totalItemsChecked} items were present</span>
+        <br><strong>⏱️ Total Checkup Time: ${totalTime} minutes</strong>
     `;
     restockList.appendChild(summaryDiv);
 }
 
-// ✅ FIXED: Clears state after final submit
-function submitFinal() {
-    state.emt = document.getElementById('emt').value;
-    state.car = document.getElementById('car').value;
-
-    // ✅ 14 ROWS: One entry per item (final status only)
-    const finalData = Object.entries(state.items).map(([key, data]) => ({
-        timestamp: new Date().toISOString(),
-        emt: state.emt,
-        car: state.car,
-        phase: 'FINAL RESTOCK',
-        item: key.split('-').slice(1).join(' '),  // Just item name
-        final_status: data.checked ? '✅ RESTOCKED' : '⚠️ WAREHOUSE OUT OF STOCK'
-    }));
-
-    const dataStr = JSON.stringify(finalData);
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('POST', SCRIPT_URL, true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            console.log('✅ Final restock submitted!');
-            newCheckup();
-        }
-    };
-
-    xhr.send('data=' + encodeURIComponent(dataStr));
-}
-
-// ✅ NEW: Start completely fresh checkup
 function newCheckup() {
     if (confirm('Complete! Start new ambulance checkup?')) {
-        // Clear ALL state
         state = {
             emt: '',
             car: '',
             items: {},
             currentPage: 'Medical',
-            submitted: false
+            submitted: false,
+            startTime: null,
+            endTime: null,
+            firstCheckTime: null
         };
+        firstCheckRecorded = false;
         saveState();
         currentPageIndex = 0;
         document.getElementById('emt').value = '';
@@ -363,16 +541,43 @@ function newCheckup() {
     }
 }
 
+function submitFinal() {
+    state.emt = document.getElementById('emt').value;
+    state.car = document.getElementById('car').value;
+
+    const finalData = Object.entries(state.items).map(([key, data]) => ({
+        start_time: state.startTime || '',
+        end_time: state.endTime || '',
+        checkup_time: state.endTime && state.startTime ?
+            ((new Date(state.endTime) - new Date(state.startTime)) / 1000 / 60).toFixed(1) + ' minutes' : 'N/A',
+        emt: state.emt,
+        car: state.car,
+        phase: 'FINAL RESTOCK',
+        item: key.split('-').slice(1).join(' '),
+        final_status: data.checked ? '✅ RESTOCKED' : '⚠️ WAREHOUSE OUT OF STOCK'
+    }));
+
+    const dataStr = JSON.stringify(finalData);
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', SCRIPT_URL, true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log('✅ Final Status:', xhr.status, xhr.responseText);
+            newCheckup();
+        }
+    };
+
+    xhr.send('data=' + encodeURIComponent(dataStr));
+}
+
 function backToCheckup() {
     state.submitted = false;
     saveState();
     currentPageIndex = pageOrder.indexOf(state.currentPage || 'Medical');
     renderPage(state.currentPage || 'Medical');
-}
-
-function showSuccess() {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.getElementById('success').classList.add('active');
 }
 
 function resetAll() {

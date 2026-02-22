@@ -140,7 +140,6 @@ header h1 {
   border-radius: 5px;
   background: #ddd;
   outline: none;
-  -webkit-appearance: none;
 }
 
 .input-slider::-webkit-slider-thumb {
@@ -236,6 +235,33 @@ header h1 {
     align-items: flex-start;
     gap: 10px;
   }
+
+  .section-header {
+    margin: 25px 0 15px 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .section-header h3 {
+    font-size: 1.2em;
+
+  }
+
+
+
+  /* Add some spacing after section headers */
+  .item:first-of-type {
+    margin-top: 15px;
+  }
+
+
+
 
   .dropdowns {
     flex-direction: column;
