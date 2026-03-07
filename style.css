@@ -108,52 +108,168 @@ header h1 {
   font-size: 1.1em;
 }
 
+/* FIXED: Responsive Required Labels */
 .required {
   font-size: 0.85em;
   color: #e74c3c;
   font-weight: bold;
   background: #ffebee;
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-radius: 20px;
-  white-space: nowrap;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+  max-width: 200px;
 }
 
+/* 🎨 BEAUTIFUL QUANTITY INPUTS - NO ARROWS */
+.input-quantity {
+  width: 70px;
+  height: 42px;
+  padding: 0 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  color: #2d3748;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+/* ✨ Hover & Focus States */
+.input-quantity:hover {
+  border-color: #667eea;
+  box-shadow:
+    0 6px 20px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.input-quantity:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow:
+    0 0 0 4px rgba(102, 126, 234, 0.15),
+    0 8px 25px rgba(102, 126, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+}
+
+/* ❌ DISABLED STATE */
+.input-quantity:disabled {
+  opacity: 0.5;
+  background: #f7f9fc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* 🎯 REMOVE SPINNER ARROWS - ALL BROWSERS */
+.input-quantity,
+.input-value {
+  /* Chrome, Safari, Edge, Opera */
+  -webkit-appearance: textfield;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.input-quantity::-webkit-outer-spin-button,
+.input-quantity::-webkit-inner-spin-button,
+.input-value::-webkit-outer-spin-button,
+.input-value::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.input-quantity[type=number],
+.input-value[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* PSI INPUTS - Same beautiful styling */
 .input-value {
   width: 90px;
-  padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
+  height: 42px;
+  padding: 0 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
+  color: #2d3748;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.input-value:hover {
+  border-color: #667eea;
+  box-shadow:
+    0 6px 20px rgba(102, 126, 234, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
 }
 
 .input-value:focus {
   outline: none;
   border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow:
+    0 0 0 4px rgba(102, 126, 234, 0.15),
+    0 8px 25px rgba(102, 126, 234, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
 }
 
+.input-value:disabled {
+  opacity: 0.5;
+  background: #f7f9fc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* SLIDER STYLING (unchanged but improved) */
 .input-slider {
   width: 140px;
   height: 8px;
   border-radius: 5px;
-  background: #ddd;
+  background: linear-gradient(90deg, #e2e8f0, #cbd5e1);
   outline: none;
+  appearance: none;
 }
 
 .input-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: #667eea;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+  box-shadow:
+    0 4px 12px rgba(102, 126, 234, 0.4),
+    0 0 0 4px rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+}
+
+.input-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow:
+    0 6px 20px rgba(102, 126, 234, 0.5),
+    0 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
 .input-slider:disabled::-webkit-slider-thumb {
-  background: #ccc;
+  background: #cbd5e1;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .slider-value {
@@ -164,17 +280,83 @@ header h1 {
   text-align: center;
 }
 
-/* ✅ NEW: DISABLED INPUT STYLES */
-.input-value:disabled,
-.input-slider:disabled {
-  opacity: 0.5;
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
 .slider-value.disabled {
   opacity: 0.5;
   color: #999;
+}
+
+/* Mobile: Better item layout */
+@media (max-width: 768px) {
+  .container {
+    margin: 10px;
+    border-radius: 15px;
+  }
+
+  .page {
+    padding: 20px;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  /* ✅ PERFECT MOBILE INPUT STYLING */
+  .input-quantity,
+  .input-value {
+    width: 80px;
+    height: 44px;
+    font-size: 18px;
+    /* Larger touch target */
+  }
+
+  /* ✅ FIXED: Required text WRAPS perfectly on mobile */
+  .required {
+    font-size: 0.8em;
+    padding: 6px 10px;
+    white-space: normal !important;
+    word-break: break-word;
+    max-width: 100%;
+    line-height: 1.3;
+    order: 3;
+  }
+
+  /* Section headers */
+  .section-header {
+    margin: 25px 0 20px 0;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    color: white;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .section-header h3 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+
+  .items>.item:first-of-type {
+    margin-top: 15px;
+  }
+
+  .dropdowns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nav-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    min-width: 250px;
+  }
 }
 
 .nav-buttons {
@@ -218,53 +400,4 @@ header h1 {
 #success {
   text-align: center;
   padding: 80px 40px;
-}
-
-@media (max-width: 768px) {
-  .container {
-    margin: 10px;
-    border-radius: 15px;
-  }
-
-  .page {
-    padding: 20px;
-  }
-
-  .item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .section-header {
-    margin: 25px 0 15px 0;
-    padding: 12px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 12px;
-    color: white;
-    font-size: 1.3em;
-    font-weight: 600;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .section-header h3 {
-    font-size: 1.2em;
-
-  }
-
-
-
-  /* Add some spacing after section headers */
-  .item:first-of-type {
-    margin-top: 15px;
-  }
-
-
-
-
-  .dropdowns {
-    flex-direction: column;
-    align-items: center;
-  }
 }

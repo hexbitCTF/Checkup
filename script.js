@@ -1,5 +1,5 @@
-// CONFIGURATION - YOUR URL IS CORRECT
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNQklfLldaaAu4ZJ7_1J-7tRmarupABhCdTwh_isGDfls6cu4DTc3k-qOk_fHiMzeb/exec';
+// CONFIGURATION 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSQzOeqNj6ZPiU7AIdQzLOCFwYRfGgQPlyR3m-oiVusaXg0GCuvplbfw8M7fxruYhf/exec';
 const emts = ['John Doe', 'Jane Smith', 'Bob Johnson', 'Alice Brown'];
 const cars = ['Ambulance 101', 'Ambulance 102', 'Ambulance 103', 'Ambulance 104'];
 
@@ -10,55 +10,55 @@ const pages = {
         { name: 'BVM Adult', type: 'checkbox', required: '1' },
         { name: 'BVM Adult Oxygen Reservoir', type: 'checkbox', required: '1' },
         { name: 'BVM Pediatric', type: 'checkbox', required: '1' },
-        { name: 'BVM Mask Adult', type: 'checkbox', required: '3 (Large Adult - Small Adult - Large Child)' },
-        { name: 'BVM Mask Pediatric', type: 'checkbox', required: '2 (Small Child - Infant)' },
-        { name: 'HEPA Filter', type: 'checkbox', required: '2' },
+        { name: 'BVM Mask Adult', quantity: true, required: '3 (Large Adult - Small Adult - Large Child)' },
+        { name: 'BVM Mask Pediatric', quantity: true, required: '2 (Small Child - Infant)' },
+        { name: 'HEPA Filter', quantity: true, required: '2' },
         { name: 'Manual Suction Unit', type: 'checkbox', required: '1' },
         { name: 'Suction Pipes (with adapter)', type: 'checkbox', required: '2 (Thin - Thick)' },
-        { name: 'Suction Tubes', type: 'checkbox', required: '4 (Black - Blue - Green - Orange)' },
+        { name: 'Suction Tubes', quantity: true, required: '4 (Black - Blue - Green - Orange)' },
         { name: 'Suction Connector', type: 'checkbox', required: '1' },
-        { name: 'Airway Cannula (OPA)', type: 'checkbox', required: '8 (40mm - 110mm)' },
+        { name: 'Airway Cannula (OPA)', quantity: true, required: '8 (40mm - 110mm)' },
 
         // SECTION: Oxygen
         { type: 'section', name: 'Oxygen' },
-        { name: 'Oxygen D-Size Bottle (Small)', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen D-Size Bottle (Small)', type: 'text', quantity: true, required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
         { name: 'Oxygen Regulator for Bottle', type: 'checkbox', required: '1' },
         { name: 'Oxygen Keychain', type: 'checkbox', required: '1' },
-        { name: 'Oxygen Face Mask Adult', type: 'checkbox', required: '3' },
-        { name: 'Oxygen Face Mask Pediatric', type: 'checkbox', required: '1' },
-        { name: 'Oxygen Non-rebreather Mask Adult', type: 'checkbox', required: '3' },
-        { name: 'Oxygen Non-rebreather Mask Pediatric', type: 'checkbox', required: '1' },
-        { name: 'Oxygen Nasal Cannula Adult', type: 'checkbox', required: '3' },
-        { name: 'Oxygen Nasal Cannula Pediatric', type: 'checkbox', required: '1' },
-        { name: 'Oxygen Connecting Tube', type: 'checkbox', required: '3' },
+        { name: 'Oxygen Face Mask Adult', quantity: true, required: '3' },
+        { name: 'Oxygen Face Mask Pediatric', quantity: true, required: '1' },
+        { name: 'Oxygen Non-rebreather Mask Adult', quantity: true, required: '3' },
+        { name: 'Oxygen Non-rebreather Mask Pediatric', quantity: true, required: '1' },
+        { name: 'Oxygen Nasal Cannula Adult', quantity: true, required: '3' },
+        { name: 'Oxygen Nasal Cannula Pediatric', quantity: true, required: '1' },
+        { name: 'Oxygen Connecting Tube', quantity: true, required: '3' },
 
         // SECTION: Vital Signs
         { type: 'section', name: 'Vital Signs' },
         { name: 'Shygmomanometer', type: 'checkbox', required: '1' },
-        { name: 'Shygmomanometer Cuffs', type: 'checkbox', required: '4 (Large Adult - Adult - Child - Infant)' },
+        { name: 'Shygmomanometer Cuffs', quantity: true, required: '4 (Large Adult - Adult - Child - Infant)' },
         { name: 'Stethoscope', type: 'checkbox', required: '1' },
         { name: 'Pulse Oximeter', type: 'checkbox', required: '1' },
         { name: 'Penlight', type: 'checkbox', required: '1' },
-        { name: 'Oral Thermometer', type: 'checkbox', required: '3' },
-        { name: 'Thermometer Strips', type: 'checkbox', required: '10' },
+        { name: 'Oral Thermometer', quantity: true, required: '3' },
+        { name: 'Thermometer Strips', quantity: true, required: '10' },
         { name: 'Glucometer', type: 'checkbox', required: '1' },
-        { name: 'Glucometer Strips', type: 'checkbox', required: '10' },
-        { name: 'Glucometer Needles', type: 'checkbox', required: '10' },
+        { name: 'Glucometer Strips', quantity: true, required: '10' },
+        { name: 'Glucometer Needles', quantity: true, required: '10' },
 
         // SECTION: Other
         { type: 'section', name: 'Other' },
         { name: 'Cloth Scissors', type: 'checkbox', required: '1' },
-        { name: 'Trash Bags Small', type: 'checkbox', required: '10' }
+        { name: 'Trash Bags Small', quantity: true, required: '10' }
     ],
 
     Trauma: [
         // SECTION: Spinal
         { type: 'section', name: 'Spinal' },
         { name: 'Head Immobilizer', type: 'checkbox', required: '1' },
-        { name: 'Head Immobilizer Fixations', type: 'checkbox', required: '2' },
-        { name: 'Head Immobilizer Straps', type: 'checkbox', required: '2' },
+        { name: 'Head Immobilizer Fixations', quantity: true, required: '2' },
+        { name: 'Head Immobilizer Straps', quantity: true, required: '2' },
         { name: 'Spider Belts', type: 'checkbox', required: '1' },
-        { name: 'Hook Straps', type: 'checkbox', required: '4' },
+        { name: 'Hook Straps', quantity: true, required: '4' },
 
         // SECTION: Splinting
         { type: 'section', name: 'Splinting' },
@@ -68,20 +68,20 @@ const pages = {
 
         // SECTION: Bandages
         { type: 'section', name: 'Bandages' },
-        { name: 'Elastic Bandage Small', type: 'checkbox', required: '5' },
-        { name: 'Elastic Bandage Medium', type: 'checkbox', required: '5' },
-        { name: 'Elastic Bandage Large', type: 'checkbox', required: '5' },
-        { name: 'Compressive Bandage', type: 'checkbox', required: '5' },
-        { name: 'Triangular Bandage', type: 'checkbox', required: '5' },
-        { name: 'Band Aids', type: 'checkbox', required: '10' },
+        { name: 'Elastic Bandage Small', quantity: true, required: '5' },
+        { name: 'Elastic Bandage Medium', quantity: true, required: '5' },
+        { name: 'Elastic Bandage Large', quantity: true, required: '5' },
+        { name: 'Compressive Bandage', quantity: true, required: '5' },
+        { name: 'Triangular Bandage', quantity: true, required: '5' },
+        { name: 'Band Aids', quantity: true, required: '10' },
 
         // SECTION: Other
         { type: 'section', name: 'Other' },
-        { name: 'Sterile Gauze (Set of 5)', type: 'checkbox', required: '5' },
-        { name: 'Ice Bag', type: 'checkbox', required: '2' },
+        { name: 'Sterile Gauze (Set of 5)', quantity: true, required: '5' },
+        { name: 'Ice Bag', quantity: true, required: '2' },
         { name: 'Inongan/DHR', type: 'checkbox', required: '1' },
         { name: 'Tourniquet', type: 'checkbox', required: '1' },
-        { name: 'Chest Seal', type: 'checkbox', required: '1' }
+        { name: 'Chest Seal', quantity: true, required: '1' }
     ],
 
     'Ambulance Equipment': [
@@ -92,26 +92,26 @@ const pages = {
         { name: 'EZ-Glide', type: 'checkbox', required: '1' },
         { name: 'Planchette', type: 'checkbox', required: '1' },
         { name: 'Scoop Stretcher', type: 'checkbox', required: '1' },
-        { name: 'Spare Belts', type: 'checkbox', required: '3' },
+        { name: 'Spare Belts', quantity: true, required: '3' },
 
         // SECTION: Immobilization and Splinting
         { type: 'section', name: 'Immobilization and Splinting' },
         { name: 'Vacuum Mattress', type: 'checkbox', required: '1' },
         { name: 'Vacuum Mattress Deflator', type: 'checkbox', required: '1' },
         { name: 'Spinal Board', type: 'checkbox', required: '1' },
-        { name: 'Rigid Splints', type: 'checkbox', required: '3' },
-        { name: 'Vacuum Splints', type: 'checkbox', required: '3' },
+        { name: 'Rigid Splints', quantity: true, required: '3' },
+        { name: 'Vacuum Splints', quantity: true, required: '3' },
         { name: 'KED', type: 'checkbox', required: '1' },
-        { name: 'KED Straps', type: 'checkbox', required: '2' },
+        { name: 'KED Straps', quantity: true, required: '2' },
         { name: 'KED Pillow', type: 'checkbox', required: '1' },
-        { name: 'Cervical Collar Adult', type: 'checkbox', required: '3' },
-        { name: 'Cervical Collar Pediatric', type: 'checkbox', required: '2' },
+        { name: 'Cervical Collar Adult', quantity: true, required: '3' },
+        { name: 'Cervical Collar Pediatric', quantity: true, required: '2' },
 
         // SECTION: Oxygen
         { type: 'section', name: 'Oxygen' },
-        { name: 'Oxygen E-Size Bottle', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen E-Size Bottle', type: 'text', quantity: true, required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
         { name: 'Oxygen Regulator for Bottle', type: 'checkbox', required: '1' },
-        { name: 'Oxygen Jumbo Bottle', type: 'text', required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
+        { name: 'Oxygen Jumbo Bottle', type: 'text', quantity: true, required: '2000 psi', placeholder: 'Enter PSI', min: 0, max: 3000 },
         { name: 'Oxygen Flowmeter for Jumbo Bottle', type: 'checkbox', required: '1' },
         { name: 'Oxygen Keychain', type: 'checkbox', required: '1' },
         { name: 'Oxygen Spare Bottle Large', type: 'checkbox', required: '1' },
@@ -120,57 +120,59 @@ const pages = {
         // SECTION: Suction
         { type: 'section', name: 'Suction' },
         { name: 'Electrical Suction', type: 'checkbox', required: '1' },
-        { name: 'Suction Tubes', type: 'checkbox', required: '4 (Black - Blue - Green - Orange)' },
+        { name: 'Suction Tubes', quantity: true, required: '4 (Black - Blue - Green - Orange)' },
         { name: 'Suction Connector', type: 'checkbox', required: '1' },
 
         // SECTION: CPR
         { type: 'section', name: 'CPR' },
         { name: 'AED', type: 'checkbox', required: '1' },
         { name: 'AED Battery Level', type: 'slider', required: '100%', min: 0, max: 100, step: 5 },
-        { name: 'AED Patches', type: 'checkbox', required: '2' },
+        { name: 'AED Patches', quantity: true, required: '2' },
         { name: 'CPR Board', type: 'checkbox', required: '1' },
 
         // SECTION: PPE
         { type: 'section', name: 'PPE' },
-        { name: 'Nitrile Gloves Small (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
-        { name: 'Nitrile Gloves Medium (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
-        { name: 'Nitrile Gloves Large (Rear)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
-        { name: 'Nitrile Gloves Large (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
-        { name: 'Surgical Face Mask (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
-        { name: 'Intermediate PPE Kit (for 4 EMTs)', type: 'checkbox', required: '3' },
-        { name: 'Intermediate Plus Coverall Medium', type: 'checkbox', required: '1' },
-        { name: 'Intermediate Plus Coverall Large', type: 'checkbox', required: '1' },
-        { name: 'Intermediate Plus Coverall X-Large', type: 'checkbox', required: '1' },
-        { name: 'Protective Glasses or Goggles', type: 'checkbox', required: '4' },
-        { name: 'N95 Face Mask', type: 'checkbox', required: '4' },
+        { name: 'Nitrile Gloves Small (Rear)', type: 'slider', quantity: true, required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Medium (Rear)', type: 'slider', quantity: true, required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Large (Rear)', type: 'slider', quantity: true, required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Nitrile Gloves Large (Front)', type: 'slider', quantity: true, required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Surgical Face Mask (Front)', type: 'slider', quantity: true, required: '50% at least', min: 0, max: 100, step: 5 },
+        { name: 'Intermediate PPE Kit (for 4 EMTs)', quantity: true, required: '3' },
+        { name: 'Intermediate Plus Coverall Medium', quantity: true, required: '1' },
+        { name: 'Intermediate Plus Coverall Large', quantity: true, required: '1' },
+        { name: 'Intermediate Plus Coverall X-Large', quantity: true, required: '1' },
+        { name: 'Protective Glasses or Goggles', quantity: true, required: '4' },
+        { name: 'N95 Face Mask', quantity: true, required: '4' },
 
         // SECTION: Disinfection
         { type: 'section', name: 'Disinfection' },
-        { name: 'Trash Bags Large', type: 'checkbox', required: '5' },
-        { name: 'Trash Bags Small', type: 'checkbox', required: '10' },
+        { name: 'Trash Bags Large', quantity: true, required: '5' },
+        { name: 'Trash Bags Small', quantity: true, required: '10' },
         { name: 'Cleanisept Spray', type: 'checkbox', required: '1' },
         { name: 'Descosept Spray', type: 'checkbox', required: '1' },
-        { name: 'Paper Towels', type: 'checkbox', required: '1' },
+        { name: 'Paper Towels', quantity: true, required: '1' },
         { name: 'Hand Sanitizer (Front)', type: 'slider', required: '50% at least', min: 0, max: 100, step: 5 },
 
         // SECTION: Skin and Hygiene
         { type: 'section', name: 'Skin and Hygiene' },
-        { name: 'Disposable Blanket', type: 'checkbox', required: '3' },
-        { name: 'Regular Blanket', type: 'checkbox', required: '2' },
+        { name: 'Disposable Blanket', quantity: true, required: '3' },
+        { name: 'Regular Blanket', quantity: true, required: '2' },
         { name: 'Male Urinal', type: 'checkbox', required: '1' },
         { name: 'Female Urinal', type: 'checkbox', required: '1' },
         { name: 'Bed Pan', type: 'checkbox', required: '1' },
         { name: 'Serum', type: 'checkbox', required: '1' },
-        { name: 'Blue Pad', type: 'checkbox', required: '3' },
+        { name: 'Blue Pad', quantity: true, required: '3' },                                                          // ✅ REMOVED type: 'checkbox'
 
         // SECTION: Other
         { type: 'section', name: 'Other' },
-        { name: 'Body Bag', type: 'checkbox', required: '2' },
+        { name: 'Body Bag', quantity: true, required: '2' },                                                          // ✅ REMOVED type: 'checkbox'
         { name: 'Obstetric Kit', type: 'checkbox', required: '1' },
-        { name: 'Head Lamp', type: 'checkbox', required: '4' },
-        { name: 'Disclaimer Report (Front)', type: 'checkbox', required: '5' }
+        { name: 'Head Lamp', quantity: true, required: '4' },                                                         // ✅ REMOVED type: 'checkbox'
+        { name: 'Disclaimer Report (Front)', quantity: true, required: '5' }
     ]
 };
+
+
 
 // GLOBAL STATE
 let state = JSON.parse(localStorage.getItem('checkupState')) || {
@@ -237,74 +239,120 @@ function renderPage(pageName) {
         container.innerHTML = '';
 
         pages[pageName].forEach(item => {
-            // ✅ SECTION HEADERS WITH PERFECT 25px BOTTOM MARGIN
             if (item.type === 'section') {
+                // SECTION HEADERS (unchanged)
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'section-header';
-
-                Object.assign(sectionDiv.style, {
-                    margin: '30px 0 25px 0',  // 🎯 25px spacing to items!
-
-                });
-
+                Object.assign(sectionDiv.style, { margin: '30px 0 25px 0' });
                 const h3 = document.createElement('h3');
                 h3.textContent = item.name;
-                Object.assign(h3.style, {
-                    margin: '0',
-                    fontSize: '1.2em',
-
-                });
-
+                Object.assign(h3.style, { margin: '0', fontSize: '1.2em' });
                 sectionDiv.appendChild(h3);
                 container.appendChild(sectionDiv);
                 return;
             }
 
-            // ALL EXISTING ITEM CODE (unchanged)
             const div = document.createElement('div');
             div.className = 'item';
             div.dataset.key = `${pageName}-${item.name}`;
             const key = div.dataset.key;
-            const saved = state.items[key] || { checked: false, value: '' };
-            const isChecked = saved.checked;
 
-            let inputHTML = `
-                <input type="checkbox" id="${key}" ${isChecked ? 'checked' : ''}>
-                <label for="${key}">${item.name}</label>
-                <span class="required">Required: ${item.required}</span>
-            `;
-
-            switch (item.type) {
-                case 'text':
-                    inputHTML += `<input type="number" class="input-value" placeholder="${item.placeholder || 'Enter value'}" value="${saved.value || ''}" min="${item.min || ''}" max="${item.max || ''}" ${!isChecked ? 'disabled' : ''}>`;
-                    break;
-                case 'slider':
-                    const sliderValue = saved.value || 0;
-                    inputHTML += `
-                        <input type="range" class="input-slider" min="${item.min || 0}" max="${item.max || 100}" step="${item.step || 1}" value="${sliderValue}" ${!isChecked ? 'disabled' : ''}>
-                        <span class="slider-value ${!isChecked ? 'disabled' : ''}">${sliderValue}%</span>
-                    `;
-                    break;
+            // DEFAULT TO 0 FOR QUANTITY ITEMS
+            let saved = state.items[key];
+            if (!saved) {
+                saved = item.quantity ? { quantity: '0', value: '' } : { checked: false, value: '' };
+                state.items[key] = saved;
+            } else if (item.quantity && !saved.quantity) {
+                saved.quantity = '0';
             }
 
-            div.innerHTML = inputHTML;
+            // ✅ FIXED: QUANTITY-ONLY ITEMS (NO CHECKBOX) - bottles + pure quantity items
+            if (item.quantity && !item.type) {
+                // Pure quantity items (no explicit type = checkbox)
+                const qty = saved.quantity || '0';
+                div.innerHTML = `
+            <label class="quantity-label">${item.name}</label>
+            <input type="number" class="input-quantity" placeholder="Qty" value="${qty}" min="0" step="1">
+            <span class="required">Required: ${item.required}</span>
+        `;
+                div.classList.add('quantity-only');
+            } else if (item.type === 'text' && item.quantity) {
+                // PSI bottles ONLY
+                const psi = saved.quantity || '0';
+                div.innerHTML = `
+            <label class="quantity-label">${item.name}</label>
+            <input type="number" class="input-quantity" placeholder="${item.placeholder}" value="${psi}" min="${item.min ?? 0}" max="${item.max ?? ''}" step="1">
+            <span class="required">Required: ${item.required}</span>
+        `;
+                div.classList.add('quantity-only');
+            } else {
+                // ✅ ALL OTHER ITEMS (checkbox primary)
+                const isChecked = saved.checked || false;
+                let inputHTML = `
+            <input type="checkbox" id="${key}" ${isChecked ? 'checked' : ''}>
+            <label for="${key}">${item.name}</label>
+            <span class="required">Required: ${item.required}</span>
+        `;
+
+                // Only add quantity input for checkbox items that have quantity
+                if (item.quantity && item.type === 'checkbox') {
+                    inputHTML += `<input type="number" class="input-quantity" placeholder="Qty" value="${saved.quantity || '0'}" min="0" step="1" ${!isChecked ? 'disabled' : ''}>`;
+                }
+
+                if (item.type === 'text' && !item.quantity) {
+                    inputHTML += `<input type="number" class="input-value" placeholder="${item.placeholder || 'Enter value'}" value="${saved.value || ''}" min="${item.min || ''}" max="${item.max || ''}" ${!isChecked ? 'disabled' : ''}>`;
+                } else if (item.type === 'slider') {
+                    const sliderValue = saved.value || 0;
+                    inputHTML += `
+                <input type="range" class="input-slider" min="${item.min || 0}" max="${item.max || 100}" step="${item.step || 1}" value="${sliderValue}" ${!isChecked ? 'disabled' : ''}>
+                <span class="slider-value ${!isChecked ? 'disabled' : ''}">${sliderValue}%</span>
+            `;
+                }
+
+                div.innerHTML = inputHTML;
+            }
+
             container.appendChild(div);
-            setupItemEvents(div, item);
+            setupItemEvents(div, item, key);
         });
 
         state.currentPage = pageName;
         saveState();
-    } else {
-        console.error('❌ Page not found:', pageId, 'Expected ID for:', pageName);
     }
 }
 
+function setupItemEvents(div, item, key) {
+    // QUANTITY-ONLY ITEMS
+    if (div.classList.contains('quantity-only')) {
+        const quantityInput = div.querySelector('.input-quantity');
+        div.style.cursor = 'default';
+        quantityInput.addEventListener('input', () => {
+            state.items[key].quantity = quantityInput.value || '0';
+            if (state.currentPage === 'Medical' && !firstCheckRecorded && quantityInput.value > 0) {
+                recordFirstCheck();
+            }
+            saveState();
+        });
+        return;
+    }
 
-function setupItemEvents(div, item) {
-    const key = div.dataset.key;
+    // CHECKBOX ITEMS
     const checkbox = div.querySelector('input[type=checkbox]');
+    const quantityInput = div.querySelector('.input-quantity');
     const valueInput = div.querySelector('.input-value, .input-slider');
     const sliderValueEl = div.querySelector('.slider-value');
+
+    // Make entire item clickable
+    div.style.cursor = 'pointer';
+    div.addEventListener('click', function (e) {
+        if (e.target.type === 'range' || e.target.type === 'number') return;
+        checkbox.checked = !checkbox.checked;
+        checkbox.dispatchEvent(new Event('change'));
+    });
+
+    checkbox.addEventListener('click', function (e) {
+        e.stopPropagation();
+    });
 
     checkbox.addEventListener('change', () => {
         if (state.currentPage === 'Medical' && !firstCheckRecorded) {
@@ -314,6 +362,9 @@ function setupItemEvents(div, item) {
         saveItem(key, div);
     });
 
+    if (quantityInput) {
+        quantityInput.addEventListener('input', () => saveItem(key, div));
+    }
     if (valueInput && !valueInput.disabled) {
         valueInput.addEventListener('input', () => saveItem(key, div));
         if (item.type === 'slider' && sliderValueEl) {
@@ -329,15 +380,14 @@ function setupItemEvents(div, item) {
 
 function toggleInputs(div, item) {
     const checkbox = div.querySelector('input[type=checkbox]');
+    const quantityInput = div.querySelector('.input-quantity');
     const valueInput = div.querySelector('.input-value, .input-slider');
     const sliderValueEl = div.querySelector('.slider-value');
 
     const isChecked = checkbox.checked;
 
-    if (valueInput) {
-        valueInput.disabled = !isChecked;
-    }
-
+    if (quantityInput) quantityInput.disabled = !isChecked;
+    if (valueInput) valueInput.disabled = !isChecked;
     if (sliderValueEl) {
         sliderValueEl.className = `slider-value ${!isChecked ? 'disabled' : ''}`;
     }
@@ -353,10 +403,12 @@ function toggleInputs(div, item) {
 
 function saveItem(key, div) {
     const checkbox = div.querySelector('input[type=checkbox]');
+    const quantityInput = div.querySelector('.input-quantity');
     const valueInput = div.querySelector('.input-value, .input-slider');
 
     state.items[key] = {
-        checked: checkbox.checked,
+        checked: checkbox ? checkbox.checked : false,
+        quantity: quantityInput ? (quantityInput.value || '0') : state.items[key]?.quantity || '0',
         value: valueInput ? valueInput.value : ''
     };
     saveState();
@@ -385,11 +437,14 @@ function submitInitial() {
         return;
     }
 
+    // Initialize all items
     pageOrder.forEach(pageName => {
         pages[pageName].forEach(item => {
             if (item.type !== 'section') {
                 const key = `${pageName}-${item.name}`;
-                if (!state.items[key]) state.items[key] = { checked: false, value: '' };
+                if (!state.items[key]) {
+                    state.items[key] = item.quantity ? { quantity: '0' } : { checked: false, value: '' };
+                }
             }
         });
     });
@@ -403,7 +458,10 @@ function submitInitial() {
         car: state.car,
         phase: 'INITIAL CHECKUP',
         item: key.split('-').slice(1).join(' '),
-        checked: data.checked ? '✅ PRESENT' : '❌ MISSING'
+        status: data.quantity && parseInt(data.quantity) > 0 ? '✅ PRESENT' :
+            data.checked ? '✅ PRESENT' : '❌ MISSING',
+        quantity: data.quantity || '0',
+        psi_value: data.value || ''
     }));
 
     const dataStr = JSON.stringify(allData);
@@ -436,7 +494,7 @@ function showRestock() {
     const restockList = document.getElementById('restock-list');
     restockList.innerHTML = '';
 
-    let totalItemsChecked = 0;
+    let totalItemsPresent = 0;
     let totalItemsMissing = 0;
     const allMissingItems = [];
 
@@ -445,12 +503,15 @@ function showRestock() {
             if (item.type !== 'section') {
                 const key = `${pageName}-${item.name}`;
                 if (!state.items[key]) {
-                    state.items[key] = { checked: false, value: '' };
+                    state.items[key] = item.quantity ? { quantity: '0' } : { checked: false };
                 }
 
                 const itemData = state.items[key];
-                if (itemData.checked) {
-                    totalItemsChecked++;
+                const hasQuantity = parseInt(itemData.quantity || '0') > 0;
+                const isChecked = itemData.checked || false;
+
+                if (hasQuantity || isChecked) {
+                    totalItemsPresent++;
                 } else {
                     totalItemsMissing++;
                     allMissingItems.push({ key, item, pageName });
@@ -481,7 +542,16 @@ function showRestock() {
         const checkbox = div.querySelector('input[type=checkbox]');
         checkbox.addEventListener('change', (e) => {
             if (e.target.checked) {
-                state.items[key].checked = true;
+                // ✅ FIXED: Use 100% for percentage items, required value for others
+                if (item.quantity && item.required.includes('%')) {
+                    state.items[key].quantity = '100';
+                } else if (item.quantity) {
+                    // Extract first number from required (e.g., "3 (Large Adult...)" → "3")
+                    const firstNumber = item.required.match(/^\d+/)?.[0] || '1';
+                    state.items[key].quantity = firstNumber;
+                } else {
+                    state.items[key].checked = true;
+                }
                 saveState();
 
                 div.style.background = '#d4edda';
@@ -513,11 +583,12 @@ function showRestock() {
 
     summaryDiv.innerHTML = `
         📋 <strong>${totalItemsMissing} items missing</strong> from ambulance - 
-        <span style="color:#28a745;">${totalItemsChecked} items were present</span>
+        <span style="color:#28a745;">${totalItemsPresent} items were present</span>
         <br><strong>⏱️ Total Checkup Time: ${totalTime} minutes</strong>
     `;
     restockList.appendChild(summaryDiv);
 }
+
 
 function newCheckup() {
     if (confirm('Complete! Start new ambulance checkup?')) {
@@ -554,7 +625,9 @@ function submitFinal() {
         car: state.car,
         phase: 'FINAL RESTOCK',
         item: key.split('-').slice(1).join(' '),
-        final_status: data.checked ? '✅ RESTOCKED' : '⚠️ WAREHOUSE OUT OF STOCK'
+        final_status: (data.quantity && parseInt(data.quantity) > 0) || data.checked ? '✅ RESTOCKED' : '⚠️ WAREHOUSE OUT OF STOCK',
+        quantity: data.quantity || '0',
+        psi_value: data.value || ''
     }));
 
     const dataStr = JSON.stringify(finalData);
