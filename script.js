@@ -1,5 +1,5 @@
 // CONFIGURATION 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxAF9bqU6usA3HDgfls-goCMrIrglYBwaoJQlCp8hh1U5epUnS4I0v4uqZArv4Ww9Rc/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby0kh0KYlczoLi4I966Pbc5umYFI8vjINADo_XQzmkU_761XppraiAYQ60UzHzjVddP/exec';
 const emts = ['John Doe', 'Jane Smith', 'Bob Johnson', 'Alice Brown'];
 const cars = ['Ambulance 101', 'Ambulance 102', 'Ambulance 103', 'Ambulance 104'];
 
@@ -244,6 +244,30 @@ function prevPage() {
     renderPage(pageOrder[currentPageIndex]);
     window.scrollTo(0, 0);  // ← ADD THIS LINE
 }
+
+function ensureAllItemsInitialized() {
+    const validKeys = new Set();
+    pageOrder.forEach(pageName => {
+        pages[pageName].forEach(item => {
+            if (item.type !== 'section') {
+                validKeys.add(`${pageName}-${encodeURIComponent(item.name)}`);
+            }
+        });
+    });
+
+    validKeys.forEach(key => {
+        if (!state.items[key]) {
+            state.items[key] = { quantity: '0', checked: false, value: '' };
+        } else if (!state.items[key].quantity) {
+            state.items[key].quantity = '0';  // Ensure EVERY item has quantity field
+        }
+    });
+    saveState();
+    console.log('✅ ALL', validKeys.size, 'items initialized with quantity: "0"');
+}
+
+
+
 
 
 function findItemByKey(key) {
@@ -533,31 +557,27 @@ function submitInitial() {
         return;
     }
 
-    // ✅ FIXED: Generate ALL keys from pages config (116 items)
+    // 🔥 SINGLE CALL - Initialize ALL 116 items
+    console.log('🔧 Initializing ALL items...');
+    ensureAllItemsInitialized();
+
+    // Debug: Verify ALL items have quantity
     const validKeys = new Set();
     pageOrder.forEach(pageName => {
         pages[pageName].forEach(item => {
             if (item.type !== 'section') {
-                const key = `${pageName}-${encodeURIComponent(item.name)}`;
-                validKeys.add(key);
+                validKeys.add(`${pageName}-${encodeURIComponent(item.name)}`);
             }
         });
     });
-    console.log(`🔍 validKeys: ${validKeys.size} items`); // Expect 116
 
-    // ✅ Initialize ALL missing items
-    validKeys.forEach(key => {
-        if (!state.items[key]) {
-            const parts = key.split('-', 2);
-            const pageName = parts[0];
-            const itemName = decodeURIComponent(parts[1]);
-            const item = pages[pageName]?.find(i => i.name === itemName);
-            state.items[key] = item?.quantity ? { quantity: '0', checked: false, value: '' } : { checked: false, quantity: '0', value: '' };
-        }
-    });
-    saveState();
+    const missingQuantity = Array.from(validKeys).filter(key => !state.items[key]?.quantity);
+    console.log(`🚨 Items WITHOUT quantity: ${missingQuantity.length}`);
+    if (missingQuantity.length > 0) {
+        console.log('❌ MISSING:', missingQuantity.slice(0, 5));
+    }
 
-    // ✅ BUILD 116 ITEMS WITH PROPER CHECKBOX VALUES
+    // ✅ Build data from COMPLETE state
     const allData = Array.from(validKeys).map(key => {
         const data = state.items[key];
         const dashIndex = key.indexOf('-');
@@ -588,22 +608,21 @@ function submitInitial() {
             phase: 'INITIAL CHECKUP',
             item: itemName,
             status: status,
-            quantity: data.quantity || '0',           // Keep original string
-            psi_value: data.value || '',              // PSI/sliders only
+            quantity: data.quantity || '0',  // This will ALWAYS exist now
+            psi_value: data.value || '',
             checked: data.checked === true
         };
     });
+
+    // Save snapshot BEFORE submit
     localStorage.setItem('initialCheckupState', JSON.stringify({ ...state }));
     console.log('💾 INITIAL STATE SAVED:', validKeys.size, 'items');
 
-    submitData(allData,
-        () => {
-            state.submitted = true;
-            saveState();
-            showRestock();
-        },
-        (status, text) => alert(`Submit failed: ${status}\n${text}`)
-    );
+    submitData(allData, () => {
+        state.submitted = true;
+        saveState();
+        showRestock();
+    }, (status, text) => alert(`Submit failed: ${status}\n${text}`));
 }
 
 function submitData(allData, onSuccess, onError) {
@@ -658,7 +677,7 @@ function showRestock() {
     let totalItemsMissing = 0;
     const allMissingItems = [];
 
-    // ✅ BUILD VALID KEYS SET (118 items)
+    // 1. BUILD VALID KEYS SET
     const validKeys = new Set();
     pageOrder.forEach(pageName => {
         pages[pageName].forEach(item => {
@@ -669,9 +688,7 @@ function showRestock() {
         });
     });
 
-    console.log(`🔍 Total validKeys: ${validKeys.size}`);
-
-    // 🔥 Initialize ALL missing state.items BEFORE processing
+    // 2. INITIALIZE MISSING STATE
     validKeys.forEach(key => {
         if (!state.items[key]) {
             const parts = key.split('-', 2);
@@ -683,7 +700,7 @@ function showRestock() {
     });
     saveState();
 
-    // ✅ PROCESS ALL 118 ITEMS - FIXED CHECKBOX LOGIC
+    // 3. PROCESS ITEMS FOR RESTOCK LIST
     validKeys.forEach(key => {
         const itemData = state.items[key];
         const dashIndex = key.indexOf('-');
@@ -693,22 +710,19 @@ function showRestock() {
 
         if (!item) return;
 
-        // 🌟 FIXED: PERFECT currentQty calculation for ALL item types
         let currentQty = 0;
         if (itemData.quantity && parseInt(itemData.quantity) > 0) {
             currentQty = parseInt(itemData.quantity);
         } else if (itemData.value && parseInt(itemData.value) > 0) {
             currentQty = parseInt(itemData.value);
-        } else if (itemData.checked === true) {  // ✅ Checkbox = 1 if checked
+        } else if (itemData.checked === true) {
             currentQty = 1;
         }
 
-
-        // 🌐 REQUIRED EXTRACTION (unchanged)
         let requiredNum = 1;
         if (item.required) {
             if (item.required.includes('psi')) requiredNum = 2000;
-            else if (item.required.includes('%')) requiredNum = 50;
+            else if (item.required.includes('%')) requiredNum = 50; // Threshold to trigger restock
             else {
                 const numMatch = item.required.match(/^\d+/);
                 requiredNum = numMatch ? parseInt(numMatch[0]) : 1;
@@ -716,7 +730,6 @@ function showRestock() {
         }
 
         const needsRestock = currentQty < requiredNum;
-        console.log(`📊 ${pageName}: ${item.name}: current=${currentQty}, required=${requiredNum}, needsRestock=${needsRestock}`);
 
         if (!needsRestock) {
             totalItemsPresent++;
@@ -726,70 +739,99 @@ function showRestock() {
         }
     });
 
-    console.log(`✅ Processed ${validKeys.size} items | ${totalItemsPresent} OK | ${totalItemsMissing} needs restock`);
-
-    // Restock UI
     if (allMissingItems.length === 0) {
         restockList.innerHTML = '<div style="text-align:center;padding:40px;color:#28a745;font-size:1.5em;">✅ All items meet requirements!</div>';
         return;
     }
 
+    // 4. RENDER RESTOCK ITEMS
     allMissingItems.forEach(({ key, item, pageName, currentQty, requiredNum }, index) => {
         const div = document.createElement('div');
         div.className = 'item';
         div.id = `restock-item-${index}`;
 
+        // Logic for display strings
+        const isPercent = item.required?.includes('%');
+        const isPsi = item.required?.includes('psi');
+
         const displayRequired = item.displayRequired ||
-            (item.required?.includes('psi') ? `${requiredNum} psi` :
-                item.required?.includes('%') ? `${requiredNum}%` : requiredNum);
+            (isPsi ? `${requiredNum} psi` : isPercent ? `${requiredNum}%` : requiredNum);
+
         let displayCurrent = currentQty;
-        if (item.required?.includes('%')) displayCurrent = `${currentQty}%`;
-        else if (item.required?.includes('psi')) displayCurrent = `${currentQty} psi`;
+        if (isPercent) displayCurrent = `${currentQty}%`;
+        else if (isPsi) displayCurrent = `${currentQty} psi`;
+
+        const getLabelHTML = (isRestocked) => {
+            if (isRestocked) {
+                // If restocked, show 100% or 2000psi regardless of the minimum required threshold
+                const finalVal = isPercent ? "100%" : isPsi ? "2000 psi" : requiredNum;
+                return `
+                    <strong>${pageName}:</strong> ${item.name}
+                    <div style="font-size:0.9em;color:#28a745;">
+                        📊 Current: ${finalVal} | Required: ${displayRequired} 
+                        <span style="color:#28a745;font-weight:bold;">✅ RESTOCKED ✓</span>
+                    </div>
+                `;
+            } else {
+                return `
+                    <strong>${pageName}:</strong> ${item.name}
+                    <div style="font-size:0.9em;color:#ff9800;">
+                        📊 Current: ${displayCurrent} | Required: ${displayRequired} 
+                        <span style="color:#e74c3c;font-weight:bold;">(-${requiredNum - currentQty})</span>
+                    </div>
+                `;
+            }
+        };
 
         div.innerHTML = `
             <input type="checkbox" id="${key}-restock">
-            <label for="${key}-restock">
-                <strong>${pageName}:</strong> ${item.name}
-                <div style="font-size:0.9em;color:#ff9800;">
-                    📊 Current: ${displayCurrent} | Required: ${displayRequired} 
-                    <span style="color:#e74c3c;font-weight:bold;">(-${requiredNum - currentQty})</span>
-                </div>
-            </label>
+            <label for="${key}-restock">${getLabelHTML(false)}</label>
             <span class="required">Needs restock</span>
         `;
 
         const checkbox = div.querySelector('input[type=checkbox]');
+        const label = div.querySelector('label');
+
         checkbox.addEventListener('change', (e) => {
             if (e.target.checked) {
-                const targetQty = requiredNum.toString();
+                // FIXED RESTOCK TARGET LOGIC
+                let targetQty;
+                if (isPercent) {
+                    targetQty = "100"; // Always restock to 100% even if required is 50%
+                } else if (isPsi) {
+                    targetQty = "2000";
+                } else {
+                    targetQty = requiredNum.toString();
+                }
 
-                // 🔥 PERFECT STATE UPDATE - ALL FIELDS FOR ALL TYPES
                 state.items[key] = {
-                    quantity: targetQty,     // "2" for Suction Pipes
-                    value: targetQty,        // Backup "2"  
-                    checked: true            // Checkbox flag
+                    quantity: targetQty,
+                    value: targetQty,
+                    checked: true
                 };
 
-                console.log(`✅ RESTOCKED ${item.name}: q=${targetQty}, v=${targetQty}, checked=true`);
-                saveState();
-
-                // Visual feedback
                 div.style.background = '#d4edda';
                 div.style.border = '2px solid #28a745';
-                const label = div.querySelector('label');
-                label.innerHTML = `
-                    <strong>${pageName}:</strong> ${item.name}
-                    <div style="font-size:0.9em;color:#28a745;">
-                        📊 Current: ${displayRequired} | Required: ${displayRequired} 
-                        <span style="color:#28a745;font-weight:bold;">✅ RESTOCKED ✓</span>
-                    </div>
-                `;
+                label.innerHTML = getLabelHTML(true);
+            } else {
+                // UNDO LOGIC: Return to original "Incomplete" state
+                state.items[key] = {
+                    quantity: currentQty.toString(),
+                    value: currentQty.toString(),
+                    checked: currentQty > 0
+                };
+
+                div.style.background = '';
+                div.style.border = '';
+                label.innerHTML = getLabelHTML(false);
             }
+            saveState();
         });
+
         restockList.appendChild(div);
     });
 
-    // Summary
+    // 5. SUMMARY
     const summaryDiv = document.createElement('div');
     summaryDiv.style.cssText = 'text-align:center;margin-top:30px;padding:20px;background:#fff3cd;border-radius:10px;font-size:1.2em;color:#e74c3c;border:2px solid #ffc107;';
     const totalTime = state.endTime && state.startTime ?
@@ -884,26 +926,34 @@ function submitFinal() {
 
 
 function newCheckup() {
-    if (confirm('Complete! Start new ambulance checkup?')) {
-        state = {
-            emt: '',
-            car: '',
-            items: {},
-            currentPage: 'Medical',
-            submitted: false,
-            startTime: null,
-            endTime: null,
-            firstCheckTime: null
-        };
-        firstCheckRecorded = false;
-        saveState();
-        currentPageIndex = 0;
-        document.getElementById('emt').value = '';
-        document.getElementById('car').value = '';
-        renderPage('Medical');
-        console.log('✅ New checkup ready!');
-        window.scrollTo(0, 0);
-    }
+    // No more pop-up! We go straight to resetting the app.
+    state = {
+        emt: '',
+        car: '',
+        items: {},
+        currentPage: 'Medical',
+        submitted: false,
+        startTime: null,
+        endTime: null,
+        firstCheckTime: null
+    };
+
+    firstCheckRecorded = false;
+    saveState();
+
+    // Reset the UI elements
+    currentPageIndex = 0;
+    const emtInput = document.getElementById('emt');
+    const carInput = document.getElementById('car');
+
+    if (emtInput) emtInput.value = '';
+    if (carInput) carInput.value = '';
+
+    // Go back to the very first page
+    renderPage('Medical');
+
+    console.log('✅ New Checkup Initialized');
+    window.scrollTo(0, 0);
 }
 
 
