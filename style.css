@@ -210,6 +210,14 @@ header h1 {
   font-family: inherit;
 }
 
+.item {
+  /* ... your existing code ... */
+  user-select: none;
+  /* Prevents text highlighting while tapping rapidly */
+  -webkit-tap-highlight-color: transparent;
+  /* Removes the ugly blue box on mobile tap */
+}
+
 .input-value:hover {
   border-color: #667eea;
   box-shadow:

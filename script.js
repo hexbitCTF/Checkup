@@ -227,10 +227,14 @@ function validateQuantityInput(input) {
     // 1. Remove ALL non-digits instantly
     input.value = input.value.replace(/[^0-9]/g, '');
 
-    // 2. Trim leading zeros (004 → 4, 000 → 0)
-    if (input.value.length > 1) {
-        input.value = parseInt(input.value) || 0;
+    // 2. Trim leading zeros only if the number is more than one digit
+    // This turns "05" into "5" but keeps "0" as "0"
+    if (input.value.length > 1 && input.value.startsWith('0')) {
+        input.value = input.value.replace(/^0+/, '');
     }
+
+    // 3. Optional: If user deletes everything, you can force it back to 0 
+    // on 'blur' (when they leave the field) to keep your logic consistent.
 }
 
 function nextPage() {
@@ -341,30 +345,30 @@ function renderPage(pageName) {
             const qty = saved.quantity || '0';
             const isChecked = saved.checked || false;
 
-            // 🔥 CASE 1: PURE QUANTITY (quantity: true, no type)
+            // CASE 1: PURE QUANTITY
             if (item.quantity && !item.type) {
                 div.innerHTML = `
                     <label class="quantity-label">${item.name}</label>
                     <input type="number" class="input-quantity" 
                            placeholder="Qty" value="${qty}" min="0" step="1"
-                           inputmode="numeric" oninput="validateQuantityInput(this)">
+                           inputmode="numeric" onfocus="this.select()" oninput="validateQuantityInput(this)">
                     <span class="required">Required: ${item.displayRequired || item.required}</span>
                 `;
                 div.classList.add('quantity-only');
             }
-            // 🔥 CASE 2: PSI BOTTLES (text + quantity)
+            // CASE 2: PSI BOTTLES
             else if (item.type === 'text' && item.quantity) {
                 div.innerHTML = `
                     <label class="quantity-label">${item.name}</label>
                     <input type="number" class="input-quantity" 
                            placeholder="${item.placeholder || 'Enter PSI'}" 
                            value="${qty}" min="${item.min || 0}" max="${item.max || 3000}" step="1"
-                           inputmode="numeric" oninput="validateQuantityInput(this)">
+                           inputmode="numeric" onfocus="this.select()" oninput="validateQuantityInput(this)">
                     <span class="required">Required: ${item.displayRequired || item.required}</span>
                 `;
                 div.classList.add('quantity-only');
             }
-            // 🔥 CASE 3: CHECKBOX ITEMS (most common)
+            // CASE 3: CHECKBOX & OTHERS
             else {
                 let inputHTML = `
                     <input type="checkbox" id="${key}" ${isChecked ? 'checked' : ''}>
@@ -372,16 +376,14 @@ function renderPage(pageName) {
                     <span class="required">Required: ${item.displayRequired || item.required}</span>
                 `;
 
-                // Add quantity input if checkbox + quantity
                 if (item.quantity && item.type === 'checkbox') {
                     inputHTML += `
                         <input type="number" class="input-quantity" 
                                placeholder="Qty" value="${qty}" min="0" step="1"
-                               inputmode="numeric" oninput="validateQuantityInput(this)"
+                               inputmode="numeric" onfocus="this.select()" oninput="validateQuantityInput(this)"
                                ${!isChecked ? 'disabled' : ''}>
                     `;
                 }
-                // Add sliders
                 else if (item.type === 'slider') {
                     const sliderValue = saved.value || 0;
                     inputHTML += `
@@ -391,16 +393,15 @@ function renderPage(pageName) {
                         <span class="slider-value ${!isChecked ? 'disabled' : ''}">${sliderValue}%</span>
                     `;
                 }
-                // Add text inputs (non-quantity)
                 else if (item.type === 'text' && !item.quantity) {
                     inputHTML += `
                         <input type="number" class="input-value" 
                                placeholder="${item.placeholder || 'Enter value'}" 
                                value="${saved.value || ''}" min="${item.min || ''}" max="${item.max || ''}"
+                               inputmode="numeric" onfocus="this.select()"
                                ${!isChecked ? 'disabled' : ''}>
                     `;
                 }
-
                 div.innerHTML = inputHTML;
             }
 
@@ -505,30 +506,22 @@ function saveItem(key, div) {
 
     const dashIndex = key.indexOf('-');
     const pageName = key.substring(0, dashIndex);
-    const encodedItemName = key.substring(dashIndex + 1);
-    const itemName = decodeURIComponent(encodedItemName);
+    const itemName = decodeURIComponent(key.substring(dashIndex + 1));
     const item = pages[pageName]?.find(i => i.name === itemName);
 
     let finalQuantity = '0';
     let finalValue = '';
 
-    // Priority: quantity → slider → checkbox
-    if (quantityInput && quantityInput.value !== '') {
-        finalQuantity = quantityInput.value;
-    } else if (slider && slider.value) {
+    // If there's a quantity input, use its value. If empty, default to '0'.
+    if (quantityInput) {
+        finalQuantity = quantityInput.value === '' ? '0' : quantityInput.value;
+    } else if (slider) {
         finalQuantity = slider.value;
         finalValue = slider.value;
     } else if (item?.required?.includes('%')) {
         finalQuantity = valueInput?.value || '0';
         finalValue = finalQuantity;
     }
-
-    console.log(`💾 saveItem ${pageName}: ${itemName}`, {
-        checked: checkbox?.checked,
-        quantity: finalQuantity,
-        value: finalValue,
-        itemType: item?.type
-    });
 
     state.items[key] = {
         checked: checkbox ? checkbox.checked : false,
@@ -537,7 +530,6 @@ function saveItem(key, div) {
     };
     saveState();
 }
-
 
 
 function saveState() {
@@ -926,7 +918,7 @@ function submitFinal() {
 
 
 function newCheckup() {
-    // No more pop-up! We go straight to resetting the app.
+    // RESET STATE IMMEDIATELY
     state = {
         emt: '',
         car: '',
@@ -941,18 +933,17 @@ function newCheckup() {
     firstCheckRecorded = false;
     saveState();
 
-    // Reset the UI elements
+    // UI RESET
     currentPageIndex = 0;
-    const emtInput = document.getElementById('emt');
-    const carInput = document.getElementById('car');
+    const emtEl = document.getElementById('emt');
+    const carEl = document.getElementById('car');
+    if (emtEl) emtEl.value = '';
+    if (carEl) carEl.value = '';
 
-    if (emtInput) emtInput.value = '';
-    if (carInput) carInput.value = '';
-
-    // Go back to the very first page
+    // NAVIGATE TO START
     renderPage('Medical');
 
-    console.log('✅ New Checkup Initialized');
+    console.log('✅ System Reset: Ready for new checkup.');
     window.scrollTo(0, 0);
 }
 
